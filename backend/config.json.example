@@ -1,0 +1,17 @@
+{
+  "server": {
+    "port": 8080,
+    "readTimeoutSeconds": 10,
+    "writeTimeoutSeconds": 10
+  },
+  "volcengine": {
+    "accessKey": "your_volcengine_access_key",
+    "secretKey": "your_volcengine_secret_key",
+    "region": "cn-north-1",
+    "endpoint": "open.volcengineapi.com",
+    "translateURL": "https://translate.volcengineapi.com"
+  },
+  "google": {
+    "apiKey": "your_google_api_key"
+  }
+}

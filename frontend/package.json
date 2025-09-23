@@ -1,0 +1,41 @@
+{
+  "name": "subtitle-translate-frontend",
+  "version": "1.0.0",
+  "description": "字幕翻译工具前端",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "subtitle",
+    "translation",
+    "srt",
+    "vue"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@tailwindcss/forms": "^0.5.7",
+    "@vitejs/plugin-vue": "^4.5.2",
+    "autoprefixer": "^10.4.16",
+    "axios": "^1.6.2",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "jszip": "^3.10.1",
+    "lucide-vue-next": "^0.294.0",
+    "postcss": "^8.4.32",
+    "radix-vue": "^1.2.5",
+    "tailwind-merge": "^3.3.1",
+    "tailwindcss": "^3.3.6",
+    "tailwindcss-animate": "^1.0.7",
+    "typescript": "^5.3.3",
+    "vite": "^4.5.0",
+    "vue": "^3.3.11",
+    "vue-router": "^4.5.1"
+  },
+  "devDependencies": {
+    "vue-tsc": "^3.0.3"
+  }
+}
