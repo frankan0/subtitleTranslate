@@ -10,7 +10,7 @@
     </div>
     <div class="w-3/4 p-8">
       <div v-if="selectedApi">
-        <h2 class="text-2xl font-bold mb-4">{{ selectedApiName }} API 文档</h2>
+        <h2 class="text-2xl font-bold mb-4">{{ selectedApiName }} API 配置</h2>
         <APISettings :api-name="selectedApi" />
       </div>
     </div>
@@ -23,7 +23,7 @@ import APISettings from './APISettings.vue';
 import { getCurrentApiName, setCurrentApiName } from '../services/apiSettingsService';
 
 const apis = ref([
-  { id: '火山引擎', name: 'GTX API (Free)' },
+  { id: 'volce', name: '火山引擎' },
   { id: 'google', name: 'Google Translate' },
   { id: 'deepl', name: 'DeepL' },
   { id: 'deepseek', name: 'DeepSeek' },

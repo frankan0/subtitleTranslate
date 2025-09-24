@@ -3,6 +3,8 @@ import axios from 'axios';
 // 定义API设置接口
 export interface ApiSettings {
   apiUrl: string;
+  apiKey: string;
+  apiSecret: string;
   chunkSize: number;
   delay: number;
   rate: number;
@@ -12,6 +14,8 @@ export interface ApiSettings {
 export const getApiSettings = (apiName: string): ApiSettings => {
   const defaultSettings: ApiSettings = {
     apiUrl: '',
+    apiKey: '',
+    apiSecret: '',
     chunkSize: 1000,
     delay: 200,
     rate: 10,

@@ -30,6 +30,11 @@ export async function translateSubtitle(
 }> {
   try {
     const api = getApi();
+    
+    // 获取当前API设置
+    const apiName = getCurrentApiName();
+    const apiSettings = getApiSettings(apiName);
+    
     const response = await api.post('/subtitle/translate', {
       filename: file.name,
       content: file.content,
@@ -38,6 +43,10 @@ export async function translateSubtitle(
       provider: options.provider,
       outputFormat: options.outputFormat,
       translationPosition: options.translationPosition,
+      // 传递API密钥和设置
+      apiKey: apiSettings.apiKey,
+      apiSecret: apiSettings.apiSecret,
+      apiUrl: apiSettings.apiUrl,
     });
     if (response.data.success) {
       return {

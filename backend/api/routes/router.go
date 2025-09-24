@@ -36,16 +36,6 @@ func SetupRouter() *gin.Engine {
 	// API路由组
 	api := router.Group("/api")
 	{
-		// 翻译相关路由
-		translate := api.Group("/translate")
-		{
-			// 火山引擎翻译
-			translate.POST("/volcengine", handlers.TranslateWithVolcengine)
-
-			// Google翻译
-			translate.POST("/google", handlers.TranslateWithGoogle)
-		}
-
 		// 字幕翻译路由
 		subtitle := api.Group("/subtitle")
 		{

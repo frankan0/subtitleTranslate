@@ -46,7 +46,7 @@ const (
 var (
 	client     *base.Client
 	clientOnce sync.Once
-	
+
 	ServiceInfo = &base.ServiceInfo{
 		Timeout: 10 * time.Second,
 		Host:    "translate.volcengineapi.com",
@@ -67,23 +67,26 @@ var (
 	}
 )
 
-// getClient 获取线程安全的火山引擎客户端单例
-func getClient() *base.Client {
-	clientOnce.Do(func() {
-		// 从环境变量获取密钥
-		accessKey := getEnvWithDefault("VOLCENGINE_ACCESS_KEY", "")
-		secretKey := getEnvWithDefault("VOLCENGINE_SECRET_KEY", "")
-		
-		if accessKey == "" || secretKey == "" {
-			// 降级到默认密钥（仅开发环境）
-			accessKey = "AKLTMWU5ZThiYzFlNDBjNDY1NzhjOTg3ODhjMjlmNDBiMGM"
-			secretKey = "WkdJeU9USmlNek5rWTJabU5HTm1ZVGxoWVdJMVl6UTJPVFkxWkdZd1pUVQ=="
-		}
-		
-		client = base.NewClient(ServiceInfo, ApiInfoList)
-		client.SetAccessKey(accessKey)
-		client.SetSecretKey(secretKey)
-	})
+// getClient 获取火山引擎客户端，根据提供的API设置创建
+func getClient(accessKey, secretKey string) *base.Client {
+	// 如果没有提供API密钥，则从环境变量获取
+	if accessKey == "" {
+		accessKey = getEnvWithDefault("VOLCENGINE_ACCESS_KEY", "")
+	}
+	if secretKey == "" {
+		secretKey = getEnvWithDefault("VOLCENGINE_SECRET_KEY", "")
+	}
+
+	// 如果仍然没有密钥，使用默认密钥（仅开发环境）
+	if accessKey == "" || secretKey == "" {
+		accessKey = "AKLTMWU5ZThiYzFlNDBjNDY1NzhjOTg3ODhjMjlmNDBiMGM"
+		secretKey = "WkdJeU9USmlNek5rWTJabU5HTm1ZVGxoWVdJMVl6UTJPVFkxWkdZd1pUVQ=="
+	}
+
+	// 创建新的客户端
+	client := base.NewClient(ServiceInfo, ApiInfoList)
+	client.SetAccessKey(accessKey)
+	client.SetSecretKey(secretKey)
 	return client
 }
 
@@ -103,17 +106,22 @@ func getEnv(key string) string {
 
 // TranslateTexts 使用火山引擎翻译多个文本，支持重试机制
 func TranslateTexts(texts []string, targetLanguage string, sourceLanguage ...string) ([]string, error) {
+	return TranslateTextsWithSettings(texts, targetLanguage, "", "", sourceLanguage...)
+}
+
+// TranslateTextsWithSettings 使用火山引擎翻译多个文本，支持自定义API设置，支持重试机制
+func TranslateTextsWithSettings(texts []string, targetLanguage, accessKey, secretKey string, sourceLanguage ...string) ([]string, error) {
 	if len(texts) == 0 {
 		return []string{}, nil
 	}
-	
-	client := getClient()
-	
+
+	client := getClient(accessKey, secretKey)
+
 	req := Req{
 		TargetLanguage: mapLanguageCode(targetLanguage),
 		TextList:       texts,
 	}
-	
+
 	// 如果提供了源语言且不是自动检测
 	if len(sourceLanguage) > 0 && sourceLanguage[0] != "" && sourceLanguage[0] != "auto" {
 		req.SourceLanguage = mapLanguageCode(sourceLanguage[0])
@@ -126,20 +134,20 @@ func TranslateTexts(texts []string, targetLanguage string, sourceLanguage ...str
 	// 重试配置
 	maxRetries := 3
 	retryDelay := time.Second
-	
+
 	var lastErr error
 	for attempt := 0; attempt < maxRetries; attempt++ {
 		if attempt > 0 {
 			// 指数退避重试
 			time.Sleep(retryDelay * time.Duration(attempt))
 		}
-		
+
 		resp, code, err := client.Json("TranslateText", nil, string(body))
 		if err != nil {
 			lastErr = fmt.Errorf("翻译请求失败: %w", err)
 			continue
 		}
-		
+
 		if code != http.StatusOK {
 			lastErr = fmt.Errorf("翻译服务返回非200状态码: %d, 响应: %s", code, string(resp))
 			if code >= 500 && code < 600 {
@@ -148,13 +156,13 @@ func TranslateTexts(texts []string, targetLanguage string, sourceLanguage ...str
 			}
 			return nil, lastErr
 		}
-		
+
 		var response TranslateResponse
 		if err := json.Unmarshal([]byte(resp), &response); err != nil {
 			lastErr = fmt.Errorf("解析响应失败: %w", err)
 			continue
 		}
-		
+
 		if response.ResponseMetadata.Error != "" {
 			lastErr = fmt.Errorf("翻译服务错误: %s", response.ResponseMetadata.Error)
 			// 业务错误不重试
@@ -170,10 +178,10 @@ func TranslateTexts(texts []string, targetLanguage string, sourceLanguage ...str
 		for i, translation := range response.TranslationList {
 			translations[i] = translation.Translation
 		}
-		
+
 		return translations, nil
 	}
-	
+
 	return nil, fmt.Errorf("翻译失败，重试%d次后仍无法完成: %w", maxRetries, lastErr)
 }
 

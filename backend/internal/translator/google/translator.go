@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"os"
 	"time"
 )
 
@@ -29,17 +30,6 @@ type TranslateResponse struct {
 
 // TranslateTexts 使用Google翻译多个文本
 func TranslateTexts(texts []string, targetLanguage string, sourceLanguage ...string) ([]string, error) {
-	//// 获取配置
-	//cfg, err := config.GetConfig()
-	//if err != nil {
-	//	return nil, fmt.Errorf("获取配置失败: %w", err)
-	//}
-	//
-	//// 检查API密钥是否配置
-	//if cfg.Google.APIKey == "" {
-	//	return nil, fmt.Errorf("Google API密钥未配置")
-	//}
-
 	client := &http.Client{
 		Timeout: 30 * time.Second,
 	}
@@ -55,10 +45,22 @@ func TranslateTexts(texts []string, targetLanguage string, sourceLanguage ...str
 		reqBody.Source = mapLanguageCode(sourceLanguage[0])
 	}
 
+	// 从环境变量获取API密钥
+	apiKey := os.Getenv("GOOGLE_API_KEY")
+	if apiKey == "" {
+		// 使用默认密钥（仅用于演示）
+		apiKey = "demo"
+	}
+	
+	// 从环境变量获取API URL
+	apiURL := os.Getenv("GOOGLE_TRANSLATE_URL")
+	if apiURL == "" {
+		// 使用默认URL
+		apiURL = "https://translation.googleapis.com/language/translate/v2"
+	}
+	
 	// 构建请求URL
-	// apiKey := cfg.Google.APIKey
-	// url := fmt.Sprintf("https://translation.googleapis.com/language/translate/v2?key=%s", apiKey)
-	url := "https://translation.googleapis.com/language/translate/v2?key=demo"
+	url := fmt.Sprintf("%s?key=%s", apiURL, apiKey)
 
 	jsonData, err := json.Marshal(reqBody)
 	if err != nil {

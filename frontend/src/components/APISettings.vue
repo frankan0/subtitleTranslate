@@ -1,9 +1,14 @@
 <template>
   <div class="space-y-4">
     <div>
-      <label for="api-url" class="block text-sm font-medium text-gray-700">API 地址</label>
-      <input type="text" id="api-url" v-model="settings.apiUrl" placeholder="示例: http://192.168.2.3:32770/translate" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-      <p class="mt-2 text-sm text-gray-500">可选, 留空使用默认接口</p>
+      <label for="api-key" class="block text-sm font-medium text-gray-700">API 密钥</label>
+      <input type="password" id="api-key" v-model="settings.apiKey" placeholder="输入API密钥" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <p class="mt-2 text-sm text-gray-500">API密钥将用于访问翻译服务</p>
+    </div>
+    <div>
+      <label for="api-secret" class="block text-sm font-medium text-gray-700">API Secret</label>
+      <input type="password" id="api-secret" v-model="settings.apiSecret" placeholder="输入API Secret" class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <p class="mt-2 text-sm text-gray-500">部分API服务需要Secret密钥</p>
     </div>
     <div>
       <label for="chunk-size" class="block text-sm font-medium text-gray-700">分块翻译大小</label>
@@ -37,6 +42,8 @@ const props = defineProps<{
 
 const settings = ref<ApiSettings>({
   apiUrl: '',
+  apiKey: '',
+  apiSecret: '',
   chunkSize: 1000,
   delay: 200,
   rate: 10,
@@ -58,6 +65,8 @@ const clearCache = () => {
 const resetSettings = () => {
   settings.value = {
     apiUrl: '',
+    apiKey: '',
+    apiSecret: '',
     chunkSize: 1000,
     delay: 200,
     rate: 10,

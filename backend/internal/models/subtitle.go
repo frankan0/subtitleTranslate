@@ -20,6 +20,13 @@ type TranslationResult struct {
 	Content            string `json:"content"`            // 翻译后的内容
 }
 
+// ApiSettings 表示API设置
+type ApiSettings struct {
+	ApiKey    string `json:"apiKey"`    // API密钥
+	ApiSecret string `json:"apiSecret"` // API密钥对应的Secret
+	ApiUrl    string `json:"apiUrl"`    // API地址
+}
+
 // TranslationRequest 表示翻译请求
 type TranslationRequest struct {
 	Filename            string `json:"filename" binding:"required"`       // 文件名
@@ -29,6 +36,9 @@ type TranslationRequest struct {
 	Provider            string `json:"provider" binding:"required"`       // 翻译提供商 (volcengine 或 google)
 	OutputFormat        string `json:"outputFormat" binding:"required"`   // 输出格式: "translation_only" 或 "original_and_translation"
 	TranslationPosition string `json:"translationPosition"`               // 翻译位置: "below" 或 "above"
+	ApiKey              string `json:"apiKey,omitempty"`                 // API密钥
+	ApiSecret           string `json:"apiSecret,omitempty"`              // API密钥对应的Secret
+	ApiUrl              string `json:"apiUrl,omitempty"`                 // API地址
 }
 
 // TranslationResponse 表示翻译响应

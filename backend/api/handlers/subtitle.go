@@ -24,6 +24,13 @@ func TranslateSubtitle(c *gin.Context) {
 		return
 	}
 
+	// 将API设置传递给翻译服务
+	apiSettings := models.ApiSettings{
+		ApiKey:    req.ApiKey,
+		ApiSecret: req.ApiSecret,
+		ApiUrl:    req.ApiUrl,
+	}
+
 	// 创建解析器工厂
 	factory := subtitle.NewParserFactory()
 	
@@ -69,9 +76,9 @@ func TranslateSubtitle(c *gin.Context) {
 
 	switch strings.ToLower(req.Provider) {
 	case "volcengine":
-		translatedTexts, translateErr = services.TranslateWithVolcengine(texts, req.TargetLanguage, req.SourceLanguage)
+		translatedTexts, translateErr = services.TranslateWithVolcengine(texts, req.TargetLanguage, req.SourceLanguage, apiSettings)
 	case "google":
-		translatedTexts, translateErr = services.TranslateWithGoogle(texts, req.TargetLanguage, req.SourceLanguage)
+		translatedTexts, translateErr = services.TranslateWithGoogle(texts, req.TargetLanguage, req.SourceLanguage, apiSettings)
 	default:
 		c.JSON(http.StatusBadRequest, models.TranslationResponse{
 			Success: false,
