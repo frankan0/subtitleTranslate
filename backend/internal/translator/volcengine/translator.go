@@ -79,8 +79,8 @@ func getClient(accessKey, secretKey string) *base.Client {
 
 	// 如果仍然没有密钥，使用默认密钥（仅开发环境）
 	if accessKey == "" || secretKey == "" {
-		accessKey = "AKLTMWU5ZThiYzFlNDBjNDY1NzhjOTg3ODhjMjlmNDBiMGM"
-		secretKey = "WkdJeU9USmlNek5rWTJabU5HTm1ZVGxoWVdJMVl6UTJPVFkxWkdZd1pUVQ=="
+		accessKey = "112233"
+		secretKey = "112233"
 	}
 
 	// 创建新的客户端
