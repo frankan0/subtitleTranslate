@@ -37,7 +37,7 @@
           v-model="provider"
           class="w-full px-3 py-2 border rounded-md bg-background"
         >
-          <option value="volcengine">火山引擎</option>
+          <option value="volce">火山引擎</option>
           <option value="google">Google 翻译</option>
         </select>
       </div>
@@ -95,11 +95,13 @@
 
 <script setup lang="ts">
 import { ref, watch, computed } from 'vue';
+import { setCurrentApiName } from '../services/apiSettingsService';
 import type { TranslationProvider, OutputFormat, TranslationPosition } from '../types';
 
 const props = defineProps<{
   targetLanguage: string;
   sourceLanguage?: string;
+  provider?: TranslationProvider;
 }>();
 
 const emit = defineEmits<{
@@ -107,6 +109,7 @@ const emit = defineEmits<{
   (e: 'update:source-language', value: string): void;
   (e: 'update:output-format', value: OutputFormat): void;
   (e: 'update:translation-position', value: TranslationPosition): void;
+  (e: 'update:provider', value: TranslationProvider): void;
 }>();
 
 const localTargetLanguage = computed({
@@ -119,7 +122,13 @@ const localSourceLanguage = computed({
   set: (value) => emit('update:source-language', value)
 });
 
-const provider = ref<TranslationProvider>('volcengine');
+const provider = computed({
+  get: () => props.provider || 'volce',
+  set: (value) => {
+    emit('update:provider', value);
+    setCurrentApiName(value);
+  }
+});
 const outputFormat = ref<OutputFormat>('translation_only');
 const translationPosition = ref<TranslationPosition>('bottom');
 

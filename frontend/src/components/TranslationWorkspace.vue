@@ -7,6 +7,7 @@
           v-model:target-language="targetLanguage"
           v-model:output-format="outputFormat"
           v-model:translation-position="translationPosition"
+          v-model:provider="provider"
         />
         <div v-if="files.length > 0" class="mt-4">
           <button 
@@ -42,13 +43,15 @@ import FileUploader from './FileUploader.vue';
 import TranslationOptions from './TranslationOptions.vue';
 import FileList from './FileList.vue';
 import { translateSubtitles } from '../services/translationService';
-import type { SubtitleFile, TranslationResult, OutputFormat, TranslationPosition } from '../types';
+import { getCurrentApiName, getApiSettings } from '../services/apiSettingsService';
+import type { SubtitleFile, TranslationResult, OutputFormat, TranslationPosition, TranslationProvider } from '../types';
 
 const files = ref<SubtitleFile[]>([]);
 const translations = ref<TranslationResult[]>([]);
 const targetLanguage = ref('zh');
 const outputFormat = ref<OutputFormat>('translation_only');
 const translationPosition = ref<TranslationPosition>('bottom');
+const provider = ref<TranslationProvider>('volce');
 const isTranslating = ref(false);
 
 const handleFilesUploaded = (uploadedFiles: SubtitleFile[]) => {
@@ -72,6 +75,15 @@ const handleFileRemove = (fileId: string) => {
 const translateFiles = async () => {
   if (files.value.length === 0) return;
   
+  // 获取当前选择的翻译提供商的API配置
+  const apiSettings = getApiSettings(provider.value);
+  
+  // 校验API配置是否存在
+  if (!apiSettings.apiKey ) {
+    alert(`请先在API设置中配置API密钥`);
+    return;
+  }
+  
   isTranslating.value = true;
   try {
     // 只翻译没有翻译结果的文件
@@ -84,7 +96,8 @@ const translateFiles = async () => {
         untranslatedFiles, 
         targetLanguage.value,
         outputFormat.value,
-        translationPosition.value
+        translationPosition.value,
+        provider.value
       );
       translations.value = [...translations.value, ...newTranslations];
     }

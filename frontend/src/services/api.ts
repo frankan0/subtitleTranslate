@@ -4,11 +4,9 @@ import { getCurrentApiName, getApiSettings } from './apiSettingsService';
 
 // 创建axios实例
 const createApi = () => {
-  const apiName = getCurrentApiName();
-  const settings = getApiSettings(apiName);
   
   return axios.create({
-    baseURL: settings.apiUrl || import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api',
+    baseURL: import.meta.env.VITE_API_BASE_URL || 'http://localhost:8080/api',
     timeout: 120000, // 2分钟超时
     headers: {
       'Content-Type': 'application/json',

@@ -28,7 +28,7 @@ export interface TranslationResult {
 }
 
 // 翻译API提供商类型
-export type TranslationProvider = 'volcengine' | 'google' | 'other';
+export type TranslationProvider = 'volce' | 'google' | 'other';
 
 // 翻译输出格式类型
 export type OutputFormat = 'translation_only' | 'original_and_translation';

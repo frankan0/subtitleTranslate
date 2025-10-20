@@ -33,7 +33,7 @@ func TranslateSubtitle(c *gin.Context) {
 
 	// 创建解析器工厂
 	factory := subtitle.NewParserFactory()
-	
+
 	// 获取文件扩展名
 	ext := strings.ToLower(strings.TrimPrefix(filepath.Ext(req.Filename), "."))
 	if ext == "" {
@@ -75,7 +75,7 @@ func TranslateSubtitle(c *gin.Context) {
 	var translateErr error
 
 	switch strings.ToLower(req.Provider) {
-	case "volcengine":
+	case "volce":
 		translatedTexts, translateErr = services.TranslateWithVolcengine(texts, req.TargetLanguage, req.SourceLanguage, apiSettings)
 	case "google":
 		translatedTexts, translateErr = services.TranslateWithGoogle(texts, req.TargetLanguage, req.SourceLanguage, apiSettings)
