@@ -1,4 +1,5 @@
-# 字幕翻译工具 (Subtitle Translator)
+# 自部署字幕翻译工具 (Subtitle Translator)
+和AI结对编程产品，提供字幕翻译服务，使用Trae + Kimi-K2/Claude-3.5-Sonnet模型。
 
 一个简单易用的字幕翻译工具，支持SRT格式字幕文件的批量翻译。前端使用Vue 3 + TypeScript + Tailwind CSS构建，后端使用Go语言开发，支持火山引擎和Google翻译API。
 
@@ -55,21 +56,6 @@ cp .env.example .env
 # 运行后端服务
 go run main.go
 ```
-
-## 配置API密钥
-
-### 火山引擎翻译API
-
-1. 注册[火山引擎开发者账号](https://www.volcengine.com/)
-2. 创建翻译服务并获取AccessKey和SecretKey
-3. 在后端的`.env`文件中配置相关密钥
-
-### Google翻译API
-
-1. 注册[Google Cloud Platform账号](https://cloud.google.com/)
-2. 创建项目并启用Cloud Translation API
-3. 创建API密钥
-4. 在后端的`.env`文件中配置API密钥
 
 ## 项目结构
 

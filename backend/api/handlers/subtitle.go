@@ -81,6 +81,8 @@ func TranslateSubtitle(c *gin.Context) {
 		translatedTexts, translateErr = services.TranslateWithGoogle(texts, req.TargetLanguage, req.SourceLanguage, apiSettings)
 	case "tencent":
 		translatedTexts, translateErr = services.TranslateWithTencent(texts, req.TargetLanguage, req.SourceLanguage, apiSettings)
+	case "aliyun":
+		translatedTexts, translateErr = services.TranslateWithAliyun(texts, req.TargetLanguage, req.SourceLanguage, apiSettings)
 	default:
 		c.JSON(http.StatusBadRequest, models.TranslationResponse{
 			Success: false,

@@ -39,6 +39,7 @@
         >
           <option value="volce">火山引擎</option>
           <option value="tencent">腾讯云</option>
+          <option value="aliyun">阿里云</option>
         </select>
       </div>
 

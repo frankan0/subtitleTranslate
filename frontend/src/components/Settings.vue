@@ -25,6 +25,7 @@ import { getCurrentApiName, setCurrentApiName } from '../services/apiSettingsSer
 const apis = ref([
   { id: 'volce', name: '火山引擎' },
   { id: 'tencent', name: '腾讯云' },
+  { id: 'aliyun', name: '阿里云' },
 ]);
 
 const selectedApi = ref(getCurrentApiName());
