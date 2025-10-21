@@ -8,7 +8,7 @@ export async function translateSubtitles(
   targetLanguage: string,
   outputFormat: OutputFormat = 'translation_only',
   translationPosition: TranslationPosition = 'bottom',
-  provider: TranslationProvider = 'volcengine'
+  provider: TranslationProvider = 'volce'
 ): Promise<TranslationResult[]> {
   const results: TranslationResult[] = [];
   const options: TranslationOptions = {

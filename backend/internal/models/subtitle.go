@@ -33,7 +33,7 @@ type TranslationRequest struct {
 	Content             string `json:"content" binding:"required"`        // 文件内容
 	TargetLanguage      string `json:"targetLanguage" binding:"required"` // 目标语言
 	SourceLanguage      string `json:"sourceLanguage,omitempty"`          // 源语言，支持腾讯云等需要明确源语言的API
-	Provider            string `json:"provider" binding:"required"`       // 翻译提供商 (volcengine 或 google)
+	Provider            string `json:"provider" binding:"required"`       // 翻译提供商 (volcengine, google 或 tencent)
 	OutputFormat        string `json:"outputFormat" binding:"required"`   // 输出格式: "translation_only" 或 "original_and_translation"
 	TranslationPosition string `json:"translationPosition"`               // 翻译位置: "below" 或 "above"
 	ApiKey              string `json:"apiKey,omitempty"`                 // API密钥

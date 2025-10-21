@@ -38,7 +38,7 @@
           class="w-full px-3 py-2 border rounded-md bg-background"
         >
           <option value="volce">火山引擎</option>
-          <option value="google">Google 翻译</option>
+          <option value="tencent">腾讯云</option>
         </select>
       </div>
 

@@ -7,6 +7,8 @@ toolchain go1.23.11
 require (
 	github.com/gin-contrib/cors v1.7.6
 	github.com/gin-gonic/gin v1.10.1
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common v1.1.45
+	github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/tmt v1.1.45
 	github.com/volcengine/volc-sdk-golang v1.0.216
 	golang.org/x/sync v0.15.0
 )
