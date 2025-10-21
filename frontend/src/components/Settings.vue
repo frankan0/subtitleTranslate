@@ -24,17 +24,13 @@ import { getCurrentApiName, setCurrentApiName } from '../services/apiSettingsSer
 
 const apis = ref([
   { id: 'volce', name: '火山引擎' },
-  { id: 'google', name: 'Google Translate' },
-  { id: 'deepl', name: 'DeepL' },
-  { id: 'deepseek', name: 'DeepSeek' },
-  { id: 'gemini', name: 'Gemini' },
 ]);
 
 const selectedApi = ref(getCurrentApiName());
 
 const selectedApiName = computed(() => {
   const api = apis.value.find(a => a.id === selectedApi.value);
-  return api ? api.name : '';
+  return api ? api.name : 'volce';
 });
 
 watch(selectedApi, (newValue) => {

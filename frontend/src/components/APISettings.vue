@@ -78,7 +78,6 @@ const resetSettings = () => {
     rate: 10,
   };
   hasUnsavedChanges.value = true;
-  alert('配置已重置，请点击保存按钮保存更改');
 };
 
 onMounted(() => {
