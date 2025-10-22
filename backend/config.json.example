@@ -1,8 +1,8 @@
 {
   "server": {
     "port": 8080,
-    "readTimeoutSeconds": 10,
-    "writeTimeoutSeconds": 10
+    "readTimeoutSeconds": 30,
+    "writeTimeoutSeconds": 120
   },
   "volcengine": {
     "accessKey": "your_volcengine_access_key",

@@ -74,6 +74,17 @@ func TranslateSubtitle(c *gin.Context) {
 	var translatedTexts []string
 	var translateErr error
 
+	// 检查请求上下文是否被取消
+	select {
+	case <-c.Request.Context().Done():
+		c.JSON(http.StatusRequestTimeout, models.TranslationResponse{
+			Success: false,
+			Error:   "请求被取消或超时",
+		})
+		return
+	default:
+	}
+
 	switch strings.ToLower(req.Provider) {
 	case "volce":
 		translatedTexts, translateErr = services.TranslateWithVolcengine(texts, req.TargetLanguage, req.SourceLanguage, apiSettings)

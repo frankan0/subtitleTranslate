@@ -40,8 +40,8 @@ func DefaultConfig() *Config {
 	return &Config{
 		Server: ServerConfig{
 			Port:                8080,
-			ReadTimeoutSeconds:  10,
-			WriteTimeoutSeconds: 10,
+			ReadTimeoutSeconds:  30,
+			WriteTimeoutSeconds: 120, // 增加到2分钟，处理大文件翻译
 		},
 		Volcengine: VolcengineConfig{
 			Region:       "cn-north-1",

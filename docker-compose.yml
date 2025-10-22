@@ -1,17 +1,11 @@
-version: '3.8'
+version: '3'
 
 services:
-  frontend:
-    build: ./frontend
-    ports:
-      - "80:80"
-    depends_on:
-      - backend
-    networks:
-      - subtitle-network
-
-  backend:
-    build: ./backend
+  # 单一容器服务（前后端一体化）
+  app:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
     ports:
       - "8080:8080"
     volumes:
